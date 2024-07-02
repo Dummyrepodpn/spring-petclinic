@@ -17,9 +17,9 @@ pipeline {
             }
         stage('postbuild') {
             steps {
-                archiveArtifacts artifacts: '**/spring-petclinic-*.jar',
-                                 onlyIfSuccessful: true,
-                junit testResults: '**/TEST-*.xml'
+                archiveArtifacts artifacts: '**/target/spring-petclinic-3.0.0-SNAPSHOT.jar',
+                                 onlyIfSuccessful: true
+                junit testResults: '**/surefire-reports/TEST-*.xml'
             }
         }
     }    
