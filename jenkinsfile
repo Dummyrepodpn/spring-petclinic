@@ -1,4 +1,5 @@
 pipeline {
+    agent { label 'JDK_22' }
     triggers { pollSCM('* * * * *') }
     stages{
         stage('vcn') {
