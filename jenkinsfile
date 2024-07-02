@@ -15,14 +15,6 @@ pipeline {
             steps {
                 sh 'mvn package'
             }
-        }
-        stage('sonar analysis') {
-            steps {
-                withSonarQubeEnv('SONAR_CLOUD') {
-                    sh 'mvn clean package sonar:sonar'
-                }
-            }
-        }
         stage('postbuild') {
             steps {
                 archiveArtifacts artifacts: '**/spring-petclinic-*.jar',
