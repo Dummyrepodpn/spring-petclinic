@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'JDK_17' }
+    agent { label 'DK_17' }
     triggers { pollSCM('* * * * *') }
     environment {
         SONAR_TOKEN = credentials('SONAR_ID')  // Ensure this credential is added in Jenkins
@@ -24,7 +24,7 @@ pipeline {
         }
         stage('SonarCloud Analysis') {
             steps {
-                withSonarQubeEnv('SONAR_CLOUD') {
+                withSonarQubeEnv('SONAR_CLOU') {
                     sh "mvn sonar:sonar -Dsonar.projectKey=${env.SONAR_PROJECT_KEY} -Dsonar.organization=${env.SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${env.SONAR_TOKEN}"
                 }
             }
