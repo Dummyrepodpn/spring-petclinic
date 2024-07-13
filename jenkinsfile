@@ -13,7 +13,7 @@ pipeline {
                 rtServer (
                     id: "ARTIFACTORY_SERVER",
                     url: 'https://dpntest.jfrog.io//artifactory',
-                    credentialsId: 'JFROG_ID'
+                    credentialsId: 'Jfrog_id'
                 )
 
                 rtMavenDeployer (
