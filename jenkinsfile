@@ -1,6 +1,12 @@
 pipeline {
     agent { label 'JDK_17' }
     triggers { pollSCM('* * * * *') }
+    environment {
+        SONAR_TOKEN = credentials('SONAR_ID')  // Ensure this credential is added in Jenkins
+        SONAR_PROJECT_KEY = 'spring19'
+        SONAR_ORGANIZATION = 'spring19'
+        MAVEN_TOOL = 'MAVEN' // Your configured Maven tool in Jenkins
+    }
     stages{
         stage('vcn') {
             steps {
@@ -8,37 +14,19 @@ pipeline {
                     branch: 'main'
             }
         }
-         stage ('Artifactory configuration') {
-            steps {
-                rtServer (
-                    id: "ARTIFACTORY_SERVER",
-                    url: 'https://dpntest.jfrog.io//artifactory',
-                    credentialsId: 'Jfrog_id'
-                )
-
-                rtMavenDeployer (
-                    id: "MAVEN_DEPLOYER",
-                    serverId: "ARTIFACTORY_SERVER",
-                    releaseRepo: 'docker-trial',
-                    snapshotRepo: 'docker-trial'
-                )
-            }
-        }
         stage('package') {
             tools { 
                jdk 'JDK_17'
             }
             steps {
-                rtMavenRun (
-                    tool: 'MAVEN_DEFAULT',
-                    pom: 'pom.xml',
-                    goals: 'clean install',
-                    deployerId: "MAVEN_DEPLOYER"
-
-                )
-                rtPublishBuildInfo (
-                    serverId: "ARTIFACTORY_SERVER"
-                )
+               sh "mvn package"
+            }
+        }
+        stage('SonarCloud Analysis') {
+            steps {
+                withSonarQubeEnv('SONAR_CLOUD') {
+                    sh "mvn sonar:sonar -Dsonar.projectKey=${env.SONAR_PROJECT_KEY} -Dsonar.organization=${env.SONAR_ORGANIZATION} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${env.SONAR_TOKEN}"
+                }
             }
         }
     }    
