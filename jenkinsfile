@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'DK_17' }
+    agent { label 'JDK_17' }
     triggers { pollSCM('* * * * *') }
     environment {
         SONAR_TOKEN = credentials('SONAR_ID')  // Ensure this credential is added in Jenkins
