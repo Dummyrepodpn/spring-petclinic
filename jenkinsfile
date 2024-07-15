@@ -6,7 +6,7 @@ pipeline {
         SONAR_TOKEN = credentials('SONAR_ID')  // Ensure this credential is added in Jenkins
         SONAR_PROJECT_KEY = 'spring19'
         SONAR_ORGANIZATION = 'spring19'
-        MAVEN_TOOL = 'MAVEN' // Your configured Maven tool in Jenkins
+        MAVEN_TOOL = 'MAVEN_DEFAULT' // Your configured Maven tool in Jenkins
     }
     stages {
         stage('vcn') {
