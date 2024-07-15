@@ -1,7 +1,7 @@
 pipeline {
     agent { label 'JDK_17' }
     triggers { pollSCM('* * * * *') }
-    parameters { choice(name: 'choice', choice: ['clean install', 'clean package','deploy'], description: 'test with choice') }
+    parameters { choice(name: 'choice', choices: ['clean install', 'clean package','deploy'], description: 'test with choice') }
     environment { 
         SONAR_TOKEN = credentials('SONAR_ID')  // Ensure this credential is added in Jenkins
         SONAR_PROJECT_KEY = 'spring19'
